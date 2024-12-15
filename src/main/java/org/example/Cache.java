@@ -1,5 +1,11 @@
 package org.example;
 
+/**
+ * A cache interface
+ *
+ * @param <K> the key type
+ * @param <V> the value type
+ */
 public interface Cache<K, V> {
 
     /**
