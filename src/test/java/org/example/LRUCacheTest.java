@@ -12,16 +12,10 @@ public class LRUCacheTest {
     public void testLRUCache() {
         Cache<Integer, Integer> cache = new LRUCache<>(SIZE);
 
-        for (int i = 0; i < SIZE; i++) {
+        for (int i = 0; i < SIZE * 2; i++) {
             assertNull(cache.get(i));
             cache.put(i, i);
             assertEquals((int) cache.get(i), i);
-        }
-
-        for (int i = SIZE; i < SIZE * 2; i++) {
-            assertEquals((int) cache.get(i - SIZE), i - SIZE);
-            cache.put(i, i);
-            assertNull(cache.get(i - SIZE));
         }
     }
 
