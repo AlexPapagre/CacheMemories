@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class LRUCache<K, V> implements Cache<K, V> {
-    private Map<K, V> map = new HashMap<>();
+    private Map<K, Node<K, V>> map = new HashMap<>();
     private Node<K, V> head, tail;
     private int maxSize, size;
 
@@ -21,7 +21,9 @@ public class LRUCache<K, V> implements Cache<K, V> {
             return null;
         }
 
-        return map.get(key);
+        swapToTail(map.get(key));
+
+        return map.get(key).value;
     }
 
     @Override
@@ -42,12 +44,31 @@ public class LRUCache<K, V> implements Cache<K, V> {
             size++;
         }
 
-        map.put(key, value);
+        map.put(key, n);
 
         // Remove head if cache is full
         if (isFull()) {
             pop();
         }
+    }
+
+    private void swapToTail(Node<K, V> n) {
+        if (size <= 1 || n == tail) {
+            return;
+        }
+
+        if (n == head) {
+            n.next.prev = null;
+            head = n.next;
+        } else {
+            n.next.prev = n.prev;
+            n.prev.next = n.next;
+        }
+
+        n.next = null;
+        n.prev = tail;
+        tail.next = n;
+        tail = n;
     }
 
     private boolean isFull() {
