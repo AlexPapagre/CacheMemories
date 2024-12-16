@@ -17,7 +17,7 @@ public interface Cache<K, V> {
     V get(K key);
 
     /**
-     * Put a new key value pair in the cache
+     * Put a new key value pair in the cache.
      *
      * @param key the key
      * @param value the value
