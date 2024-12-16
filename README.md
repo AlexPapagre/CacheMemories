@@ -2,6 +2,8 @@
 
 DomesDedomenwn is a program that simulates a cache memory.
 
+This version only supports tests.
+
 ## Compilation (Packaging)
 
 Use maven to package the project.
@@ -10,6 +12,8 @@ Use maven to package the project.
 mvn package
 ```
 
-## Program Usage
+## Run Tests
 
-In this version of DomesDedomenwn you can only run tests.
+```bash
+mvn test
+```
