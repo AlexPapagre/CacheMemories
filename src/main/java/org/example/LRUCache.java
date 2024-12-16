@@ -37,7 +37,10 @@ public class LRUCache<K, V> implements Cache<K, V> {
             tail.next = n;
             tail = n;
         }
-        size++;
+
+        if (!map.containsKey(key)) {
+            size++;
+        }
 
         map.put(key, value);
 
@@ -48,10 +51,11 @@ public class LRUCache<K, V> implements Cache<K, V> {
     }
 
     private boolean isFull() {
-        return size == maxSize;
+        return size == maxSize + 1;
     }
 
     private void pop() {
+        map.remove(head.key);
         head = head.next;
         head.prev = null;
         size--;
