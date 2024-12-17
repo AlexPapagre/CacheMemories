@@ -20,7 +20,7 @@ public class LRUCacheTest {
     }
 
     @Test
-    public void testEdgeCases() {
+    public void testLRUCacheEdgeCases() {
         Cache<Integer, Integer> cache = new LRUCache<>(CAPACITY);
 
         for (int i = 0; i < CAPACITY; i++) {
@@ -36,7 +36,7 @@ public class LRUCacheTest {
     }
 
     @Test
-    public void stressTest() {
+    public void stressTestLRUCache() {
         Cache<Integer, Integer> cache = new LRUCache<>(CAPACITY);
 
         for (int i = 0; i < 1000000; i++) {
