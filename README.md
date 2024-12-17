@@ -9,7 +9,7 @@ This version only supports tests.
 Use maven to package the project.
 
 ```bash
-mvn package
+mvn clean package
 ```
 
 ## Run Tests
