@@ -8,17 +8,17 @@ public class LRUCache<K, V> implements Cache<K, V> {
 
     private Map<K, Node<K, V>> map = new HashMap<>();
     private Node<K, V> head, tail;
-    private int maxSize, size;
+    private int capacity, size;
 
     public LRUCache() {
         this(DEFAULT_CAPACITY);
     }
 
-    public LRUCache(int maxSize) {
+    public LRUCache(int capacity) {
         this.head = null;
         this.tail = null;
         this.size = 0;
-        this.maxSize = maxSize;
+        this.capacity = capacity;
     }
 
     @Override
@@ -78,7 +78,7 @@ public class LRUCache<K, V> implements Cache<K, V> {
     }
 
     private boolean isFull() {
-        return size == maxSize + 1;
+        return size == capacity + 1;
     }
 
     private void pop() {
