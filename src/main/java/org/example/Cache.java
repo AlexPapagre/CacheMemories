@@ -24,4 +24,18 @@ public interface Cache<K, V> {
      */
     void put(K key, V value);
 
+    /**
+     * Returns hit count.
+     *
+     * @return hitCount the hit count
+     */
+    int getHitCount();
+
+    /**
+     * Returns miss count.
+     *
+     * @return missCount the miss count
+     */
+    int getMissCount();
+
 }
