@@ -15,9 +15,9 @@ public class LRUCache<K, V> implements Cache<K, V> {
     }
 
     public LRUCache(int capacity) {
-        this.head = null;
-        this.tail = null;
-        this.size = 0;
+        head = null;
+        tail = null;
+        size = 0;
         this.capacity = capacity;
     }
 
