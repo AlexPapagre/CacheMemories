@@ -8,7 +8,7 @@ public class LRUCache<K, V> implements Cache<K, V> {
 
     private Map<K, Node<K, V>> map = new HashMap<>();
     private Node<K, V> head, tail;
-    private int size, capacity;
+    private int size, capacity, hitCount, missCount;
 
     public LRUCache() {
         this(DEFAULT_CAPACITY);
@@ -18,14 +18,18 @@ public class LRUCache<K, V> implements Cache<K, V> {
         head = null;
         tail = null;
         size = 0;
+        hitCount = 0;
+        missCount = 0;
         this.capacity = capacity;
     }
 
     @Override
     public V get(K key) {
         if (!map.containsKey(key)) {
+            missCount++;
             return null;
         }
+        hitCount++;
 
         swapToTail(map.get(key));
 
@@ -56,6 +60,16 @@ public class LRUCache<K, V> implements Cache<K, V> {
         if (isFull()) {
             pop();
         }
+    }
+
+    @Override
+    public int getHitCount() {
+        return hitCount;
+    }
+
+    @Override
+    public int getMissCount() {
+        return missCount;
     }
 
     private void swapToTail(Node<K, V> n) {
