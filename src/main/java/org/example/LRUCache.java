@@ -8,7 +8,7 @@ public class LRUCache<K, V> implements Cache<K, V> {
 
     private Map<K, Node<K, V>> map = new HashMap<>();
     private Node<K, V> head, tail;
-    private int capacity, size;
+    private int size, capacity;
 
     public LRUCache() {
         this(DEFAULT_CAPACITY);
