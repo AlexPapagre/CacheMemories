@@ -45,18 +45,9 @@ public class CacheImpl<K, V> implements Cache<K, V> {
         n.key = key;
         n.value = value;
 
-        if (head == null) {
-            head = n;
-        } else {
-            n.prev = tail;
-            tail.next = n;
-        }
-
         if (!map.containsKey(key)) {
             size++;
         }
-
-        map.put(key, n);
 
         // Remove one if cache is full
         if (isFull()) {
@@ -67,7 +58,12 @@ public class CacheImpl<K, V> implements Cache<K, V> {
             }
             size--;
         }
-        tail = n;
+
+        // Put node to list
+        listPut(n);
+
+        // Put node to map
+        map.put(key, n);
 
     }
 
@@ -114,6 +110,16 @@ public class CacheImpl<K, V> implements Cache<K, V> {
         map.remove(tail.key);
         tail = tail.prev;
         tail.next = null;
+    }
+
+    private void listPut(Node<K, V> n) {
+        if (head == null) {
+            head = tail = n;
+        } else {
+            n.prev = tail;
+            tail.next = n;
+            tail = n;
+        }
     }
 
     private static class Node<K, V> {

@@ -68,11 +68,37 @@ public class CacheTest {
     @Test
     public void testMRUCacheEdgeCases() {
         Cache<Integer, Integer> cache = new CacheImpl<>(CAPACITY, CacheReplacementPolicy.MRU);
+
+        for (int i = 0; i < CAPACITY; i++) {
+            assertNull(cache.get(i));
+            cache.put(i, i);
+            assertEquals((int) cache.get(i), i);
+        }
+
+        for (int i = CAPACITY; i < CAPACITY * 2; i++) {
+            assertEquals((int) cache.get(i - CAPACITY), i - CAPACITY);
+            cache.put(i, i);
+            assertNull(cache.get(i - CAPACITY));
+        }
     }
 
     @Test
     public void stressTestMRUCache() {
         Cache<Integer, Integer> cache = new CacheImpl<>(CAPACITY, CacheReplacementPolicy.MRU);
+
+        for (int i = 0; i < 1000000; i++) {
+            assertNull(cache.get(i));
+            cache.put(i, i);
+            assertEquals((int) cache.get(i), i);
+        }
+
+        for (int i = 0; i < 1000000; i++) {
+            if (i < CAPACITY - 1 || i == 999999) {
+                assertEquals((int) cache.get(i), i);
+            } else {
+                assertNull(cache.get(i));
+            }
+        }
     }
 
 }
