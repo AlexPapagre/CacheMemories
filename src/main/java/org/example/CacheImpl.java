@@ -4,17 +4,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class CacheImpl<K, V> implements Cache<K, V> {
-    public static final int DEFAULT_CAPACITY = 1000;
-
     private final Map<K, Node<K, V>> map = new HashMap<>();
     private Node<K, V> head, tail;
     private int size, hitCount, missCount;
     private final int capacity;
     private final CacheReplacementPolicy replacementPolicy;
-
-    public CacheImpl(CacheReplacementPolicy replacementPolicy) {
-        this(DEFAULT_CAPACITY, replacementPolicy);
-    }
 
     public CacheImpl(int capacity, CacheReplacementPolicy replacementPolicy) {
         head = null;
@@ -22,7 +16,7 @@ public class CacheImpl<K, V> implements Cache<K, V> {
         size = 0;
         hitCount = 0;
         missCount = 0;
-        this.capacity = Math.max(capacity, DEFAULT_CAPACITY);
+        this.capacity = capacity;
         this.replacementPolicy = replacementPolicy;
     }
 

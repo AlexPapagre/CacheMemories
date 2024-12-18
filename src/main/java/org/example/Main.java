@@ -6,10 +6,12 @@ public class Main {
 
     public static final int OPERATIONS = 100000;
 
+    public static final int CAPACITY = 1000;
+
     public static void main(String[] args) {
 
         for (CacheReplacementPolicy replacementPolicy : CacheReplacementPolicy.values()) {
-            Cache<Integer, Integer> cache = new CacheImpl<>(replacementPolicy);
+            Cache<Integer, Integer> cache = new CacheImpl<>(CAPACITY, replacementPolicy);
 
             int count = 0;
             while (count < OPERATIONS) {
