@@ -5,7 +5,6 @@ import java.util.Random;
 public class Main {
 
     public static final int OPERATIONS = 100000;
-
     public static final int CAPACITY = 1000;
 
     public static void main(String[] args) {
