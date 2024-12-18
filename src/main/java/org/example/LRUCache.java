@@ -18,7 +18,7 @@ public class LRUCache<K, V> implements Cache<K, V> {
         head = null;
         tail = null;
         size = 0;
-        this.capacity = capacity;
+        this.capacity = Math.max(capacity, DEFAULT_CAPACITY);
     }
 
     @Override
