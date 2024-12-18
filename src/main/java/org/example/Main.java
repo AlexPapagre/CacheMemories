@@ -8,36 +8,45 @@ public class Main {
 
     public static void main(String[] args) {
 
-        Cache<Integer, Integer> cache = new LRUCache<>();
+        for (CacheReplacementPolicy replacementPolicy : CacheReplacementPolicy.values()) {
+            Cache<Integer, Integer> cache = new CacheImpl<>(replacementPolicy);
 
-        int count = 0;
-        while (count < OPERATIONS) {
+            int count = 0;
+            while (count < OPERATIONS) {
 
-            // Put 1000 integers to cache
-            for (int i = 0; i < 1000; i++) {
-                int num = getRandomInt();
-                cache.put(num, num);
-            }
-
-            // Get 1000 integers from cache
-            for (int i = 0; i < 1000; i++) {
-                cache.get(getRandomInt());
-                count++;
-                if (count >= OPERATIONS) {
-                    break;
+                // Put 1000 integers to cache
+                for (int i = 0; i < 1000; i++) {
+                    int num = getRandomInt();
+                    cache.put(num, num);
                 }
+
+                // Get 1000 integers from cache
+                for (int i = 0; i < 1000; i++) {
+                    cache.get(getRandomInt());
+                    count++;
+                    if (count >= OPERATIONS) {
+                        break;
+                    }
+                }
+
+                count++;
             }
+            count--;
 
-            count++;
+            // Print results
+            String description = replacementPolicy.getDescription();
+            System.out.println();
+            System.out.println(description + " Cache");
+            for (int i = 0; i < description.length(); i++) {
+                System.out.print("-");
+            }
+            System.out.println("------");
+            System.out.println("Total operations: " + count);
+            System.out.println("Cache Hits: " + cache.getHitCount());
+            System.out.println("Cache Misses: " + cache.getMissCount());
+            System.out.println("Hit Rate: " + String.format("%.2f", (double) cache.getHitCount() / (cache.getHitCount() + cache.getMissCount()) * 100) + "%");
+            System.out.println("Miss Rate: " + String.format("%.2f", (double) cache.getMissCount() / (cache.getHitCount() + cache.getMissCount()) * 100) + "%");
         }
-        count--;
-
-        // Print results
-        System.out.println("Total operations: " + count);
-        System.out.println("Cache Hits: " + cache.getHitCount());
-        System.out.println("Cache Misses: " + cache.getMissCount());
-        System.out.println("Hit Rate: " + String.format("%.2f", (double) cache.getHitCount() / (cache.getHitCount() + cache.getMissCount()) * 100) + "%");
-        System.out.println("Miss Rate: " + String.format("%.2f", (double) cache.getMissCount() / (cache.getHitCount() + cache.getMissCount()) * 100) + "%");
 
 
     }

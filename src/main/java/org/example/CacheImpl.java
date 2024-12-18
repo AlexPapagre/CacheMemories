@@ -3,24 +3,27 @@ package org.example;
 import java.util.HashMap;
 import java.util.Map;
 
-public class LRUCache<K, V> implements Cache<K, V> {
+public class CacheImpl<K, V> implements Cache<K, V> {
     public static final int DEFAULT_CAPACITY = 1000;
 
-    private Map<K, Node<K, V>> map = new HashMap<>();
+    private final Map<K, Node<K, V>> map = new HashMap<>();
     private Node<K, V> head, tail;
-    private int size, capacity, hitCount, missCount;
+    private int size, hitCount, missCount;
+    private final int capacity;
+    private final CacheReplacementPolicy replacementPolicy;
 
-    public LRUCache() {
-        this(DEFAULT_CAPACITY);
+    public CacheImpl(CacheReplacementPolicy replacementPolicy) {
+        this(DEFAULT_CAPACITY, replacementPolicy);
     }
 
-    public LRUCache(int capacity) {
+    public CacheImpl(int capacity, CacheReplacementPolicy replacementPolicy) {
         head = null;
         tail = null;
         size = 0;
         hitCount = 0;
         missCount = 0;
         this.capacity = capacity;
+        this.replacementPolicy = replacementPolicy;
     }
 
     @Override
@@ -50,16 +53,22 @@ public class LRUCache<K, V> implements Cache<K, V> {
             tail = n;
         }
 
-        if (!map.containsKey(key)) {
-            size++;
-        }
-
         map.put(key, n);
 
-        // Remove head if cache is full
-        if (isFull()) {
-            pop();
+        if (!map.containsKey(key)) {
+            size++;
+
+            // Remove one if cache is full
+            if (isFull()) {
+                if (replacementPolicy == CacheReplacementPolicy.LRU) {
+                    popFromHead();
+                } else {
+                    popFromTail();
+                }
+                size--;
+            }
         }
+
     }
 
     @Override
@@ -95,11 +104,16 @@ public class LRUCache<K, V> implements Cache<K, V> {
         return size == capacity + 1;
     }
 
-    private void pop() {
+    private void popFromHead() {
         map.remove(head.key);
         head = head.next;
         head.prev = null;
-        size--;
+    }
+
+    private void popFromTail() {
+        map.remove(head.key);
+        tail = tail.prev;
+        tail.next = null;
     }
 
     private static class Node<K, V> {

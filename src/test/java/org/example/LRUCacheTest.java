@@ -10,7 +10,7 @@ public class LRUCacheTest {
 
     @Test
     public void testLRUCache() {
-        Cache<Integer, Integer> cache = new LRUCache<>(CAPACITY);
+        Cache<Integer, Integer> cache = new CacheImpl<>(CAPACITY, CacheReplacementPolicy.LRU);
 
         for (int i = 0; i < CAPACITY * 2; i++) {
             assertNull(cache.get(i));
@@ -21,7 +21,7 @@ public class LRUCacheTest {
 
     @Test
     public void testLRUCacheEdgeCases() {
-        Cache<Integer, Integer> cache = new LRUCache<>(CAPACITY);
+        Cache<Integer, Integer> cache = new CacheImpl<>(CAPACITY, CacheReplacementPolicy.LRU);
 
         for (int i = 0; i < CAPACITY; i++) {
             assertNull(cache.get(i));
@@ -37,7 +37,7 @@ public class LRUCacheTest {
 
     @Test
     public void stressTestLRUCache() {
-        Cache<Integer, Integer> cache = new LRUCache<>(CAPACITY);
+        Cache<Integer, Integer> cache = new CacheImpl<>(CAPACITY, CacheReplacementPolicy.LRU);
 
         for (int i = 0; i < 1000000; i++) {
             assertNull(cache.get(i));
