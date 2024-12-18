@@ -53,20 +53,20 @@ public class CacheImpl<K, V> implements Cache<K, V> {
             tail = n;
         }
 
-        map.put(key, n);
-
         if (!map.containsKey(key)) {
             size++;
+        }
 
-            // Remove one if cache is full
-            if (isFull()) {
-                if (replacementPolicy == CacheReplacementPolicy.LRU) {
-                    popFromHead();
-                } else {
-                    popFromTail();
-                }
-                size--;
+        map.put(key, n);
+
+        // Remove one if cache is full
+        if (isFull()) {
+            if (replacementPolicy == CacheReplacementPolicy.LRU) {
+                popFromHead();
+            } else {
+                popFromTail();
             }
+            size--;
         }
 
     }
@@ -111,7 +111,7 @@ public class CacheImpl<K, V> implements Cache<K, V> {
     }
 
     private void popFromTail() {
-        map.remove(head.key);
+        map.remove(tail.key);
         tail = tail.prev;
         tail.next = null;
     }
