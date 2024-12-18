@@ -14,13 +14,13 @@ mvn clean package
 
 ## Run code
 
-Use maven to test the project.
-
 ```bash
 java -jar target/DomesDedomenwn-1.0-SNAPSHOT.jar
 ```
 
 ## Run Tests
+
+Use maven to test the project.
 
 ```bash
 mvn test
