@@ -4,21 +4,17 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class LRUCache<K, V> implements Cache<K, V> {
-    public static final int DEFAULT_CAPACITY = 1000;
 
-    private Map<K, Node<K, V>> map = new HashMap<>();
+    private final Map<K, Node<K, V>> map = new HashMap<>();
     private Node<K, V> head, tail;
-    private int size, capacity;
-
-    public LRUCache() {
-        this(DEFAULT_CAPACITY);
-    }
+    private int size;
+    private final int capacity;
 
     public LRUCache(int capacity) {
         head = null;
         tail = null;
         size = 0;
-        this.capacity = Math.max(capacity, DEFAULT_CAPACITY);
+        this.capacity = capacity;
     }
 
     @Override
