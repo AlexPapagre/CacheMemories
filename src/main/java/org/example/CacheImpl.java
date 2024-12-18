@@ -46,11 +46,10 @@ public class CacheImpl<K, V> implements Cache<K, V> {
         n.value = value;
 
         if (head == null) {
-            head = tail = n;
+            head = n;
         } else {
             n.prev = tail;
             tail.next = n;
-            tail = n;
         }
 
         if (!map.containsKey(key)) {
@@ -68,6 +67,7 @@ public class CacheImpl<K, V> implements Cache<K, V> {
             }
             size--;
         }
+        tail = n;
 
     }
 

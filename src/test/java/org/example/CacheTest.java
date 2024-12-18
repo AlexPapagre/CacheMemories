@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class LRUCacheTest {
+public class CacheTest {
 
     private static final int CAPACITY = 1000;
 
@@ -52,6 +52,27 @@ public class LRUCacheTest {
                 assertNull(cache.get(i));
             }
         }
+    }
+
+    @Test
+    public void testMRUCache() {
+        Cache<Integer, Integer> cache = new CacheImpl<>(CAPACITY, CacheReplacementPolicy.MRU);
+
+        for (int i = 0; i < CAPACITY * 2; i++) {
+            assertNull(cache.get(i));
+            cache.put(i, i);
+            assertEquals((int) cache.get(i), i);
+        }
+    }
+
+    @Test
+    public void testMRUCacheEdgeCases() {
+        Cache<Integer, Integer> cache = new CacheImpl<>(CAPACITY, CacheReplacementPolicy.MRU);
+    }
+
+    @Test
+    public void stressTestMRUCache() {
+        Cache<Integer, Integer> cache = new CacheImpl<>(CAPACITY, CacheReplacementPolicy.MRU);
     }
 
 }
