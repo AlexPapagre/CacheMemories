@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class LRUCache<K, V> implements Cache<K, V> {
-
     private final Map<K, Node<K, V>> map = new HashMap<>();
     private Node<K, V> head, tail;
     private int size;
