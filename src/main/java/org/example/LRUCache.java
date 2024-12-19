@@ -6,14 +6,10 @@ import java.util.Map;
 public class LRUCache<K, V> implements Cache<K, V> {
     private final Map<K, Node<K, V>> cache = new HashMap<>();
     private Node<K, V> head, tail;
-    private int size;
-    private final int capacity;
+    private int freeSpace;
 
     public LRUCache(int capacity) {
-        head = null;
-        tail = null;
-        size = 0;
-        this.capacity = capacity;
+        freeSpace = capacity;
     }
 
     @Override
@@ -34,7 +30,7 @@ public class LRUCache<K, V> implements Cache<K, V> {
         n.value = value;
 
         if (!cache.containsKey(key)) {
-            size++;
+            freeSpace--;
         }
 
         // Remove one if cache is full
@@ -50,7 +46,7 @@ public class LRUCache<K, V> implements Cache<K, V> {
     }
 
     private void makeMostRecent(Node<K, V> n) {
-        if (size <= 1 || n == tail) {
+        if (head == tail || n == tail) {
             return;
         }
 
@@ -69,14 +65,14 @@ public class LRUCache<K, V> implements Cache<K, V> {
     }
 
     private boolean isFull() {
-        return size == capacity + 1;
+        return freeSpace < 0;
     }
 
     private void popLeastRecent() {
         cache.remove(head.key);
         head = head.next;
         head.prev = null;
-        size--;
+        freeSpace++;
     }
 
     private void putInList(Node<K, V> n) {
