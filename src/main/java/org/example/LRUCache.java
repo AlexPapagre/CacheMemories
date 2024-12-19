@@ -22,7 +22,7 @@ public class LRUCache<K, V> implements Cache<K, V> {
             return null;
         }
 
-        swapToTail(map.get(key));
+        makeMostRecent(map.get(key));
 
         return map.get(key).value;
     }
@@ -53,7 +53,7 @@ public class LRUCache<K, V> implements Cache<K, V> {
         }
     }
 
-    private void swapToTail(Node<K, V> n) {
+    private void makeMostRecent(Node<K, V> n) {
         if (size <= 1 || n == tail) {
             return;
         }
