@@ -6,17 +6,12 @@ import java.util.Map;
 public class CacheImpl<K, V> implements Cache<K, V> {
     private final Map<K, Node<K, V>> cache = new HashMap<>();
     private Node<K, V> head, tail;
-    private int size, hitCount, missCount;
-    private final int capacity;
+    private int hitCount, missCount;
+    private int freeSpace;
     private final CacheReplacementPolicy replacementPolicy;
 
     public CacheImpl(int capacity, CacheReplacementPolicy replacementPolicy) {
-        head = null;
-        tail = null;
-        size = 0;
-        hitCount = 0;
-        missCount = 0;
-        this.capacity = capacity;
+        freeSpace = capacity;
         this.replacementPolicy = replacementPolicy;
     }
 
@@ -40,7 +35,7 @@ public class CacheImpl<K, V> implements Cache<K, V> {
         n.value = value;
 
         if (!cache.containsKey(key)) {
-            size++;
+            freeSpace--;
         }
 
         // Remove one if cache is full
@@ -50,7 +45,7 @@ public class CacheImpl<K, V> implements Cache<K, V> {
             } else {
                 popMostRecent();
             }
-            size--;
+            freeSpace++;
         }
 
         // Put node in list
@@ -72,7 +67,7 @@ public class CacheImpl<K, V> implements Cache<K, V> {
     }
 
     private void swapToTail(Node<K, V> n) {
-        if (size <= 1 || n == tail) {
+        if (head == tail || n == tail) {
             return;
         }
 
@@ -91,7 +86,7 @@ public class CacheImpl<K, V> implements Cache<K, V> {
     }
 
     private boolean isFull() {
-        return size == capacity + 1;
+        return freeSpace < 0;
     }
 
     private void popLeastRecent() {
