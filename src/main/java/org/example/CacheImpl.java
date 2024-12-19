@@ -53,10 +53,10 @@ public class CacheImpl<K, V> implements Cache<K, V> {
             size--;
         }
 
-        // Put node to list
+        // Put node in list
         putInList(n);
 
-        // Put node to map
+        // Put node in map
         map.put(key, n);
 
     }
