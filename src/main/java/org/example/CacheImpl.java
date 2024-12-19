@@ -23,7 +23,7 @@ public class CacheImpl<K, V> implements Cache<K, V> {
         }
         hitCount++;
 
-        swapToTail(cache.get(key));
+        makeMostRecent(cache.get(key));
 
         return cache.get(key).value;
     }
@@ -66,7 +66,7 @@ public class CacheImpl<K, V> implements Cache<K, V> {
         return missCount;
     }
 
-    private void swapToTail(Node<K, V> n) {
+    private void makeMostRecent(Node<K, V> n) {
         if (head == tail || n == tail) {
             return;
         }
