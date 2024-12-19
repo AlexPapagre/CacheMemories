@@ -4,10 +4,10 @@ DomesDedomenwn is a program that simulates a cache memory.
 
 This version only supports tests.
 
-## Run Tests
+## Usage
 
-Use maven to test the project.
+Run unit tests using
 
-```bash
+```
 mvn test
 ```
