@@ -49,7 +49,7 @@ public class LRUCache<K, V> implements Cache<K, V> {
 
         // Remove head if cache is full
         if (isFull()) {
-            pop();
+            popLeastRecent();
         }
     }
 
@@ -76,7 +76,7 @@ public class LRUCache<K, V> implements Cache<K, V> {
         return size == capacity + 1;
     }
 
-    private void pop() {
+    private void popLeastRecent() {
         map.remove(head.key);
         head = head.next;
         head.prev = null;
