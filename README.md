@@ -2,7 +2,7 @@
 
 DomesDedomenwn is a program that implements a cache memory simulation.
 
-This version supports the LRU and MRU cache types.
+This version supports the LRU and MRU cache types and the Hit/Miss function.
 
 ## Usage
 
