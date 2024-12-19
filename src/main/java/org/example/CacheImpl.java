@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class CacheImpl<K, V> implements Cache<K, V> {
-    private final Map<K, Node<K, V>> map = new HashMap<>();
+    private final Map<K, Node<K, V>> cache = new HashMap<>();
     private Node<K, V> head, tail;
     private int size, hitCount, missCount;
     private final int capacity;
@@ -22,15 +22,15 @@ public class CacheImpl<K, V> implements Cache<K, V> {
 
     @Override
     public V get(K key) {
-        if (!map.containsKey(key)) {
+        if (!cache.containsKey(key)) {
             missCount++;
             return null;
         }
         hitCount++;
 
-        swapToTail(map.get(key));
+        swapToTail(cache.get(key));
 
-        return map.get(key).value;
+        return cache.get(key).value;
     }
 
     @Override
@@ -39,7 +39,7 @@ public class CacheImpl<K, V> implements Cache<K, V> {
         n.key = key;
         n.value = value;
 
-        if (!map.containsKey(key)) {
+        if (!cache.containsKey(key)) {
             size++;
         }
 
@@ -57,7 +57,7 @@ public class CacheImpl<K, V> implements Cache<K, V> {
         putInList(n);
 
         // Put node in map
-        map.put(key, n);
+        cache.put(key, n);
 
     }
 
@@ -95,13 +95,13 @@ public class CacheImpl<K, V> implements Cache<K, V> {
     }
 
     private void popLeastRecent() {
-        map.remove(head.key);
+        cache.remove(head.key);
         head = head.next;
         head.prev = null;
     }
 
     private void popMostRecent() {
-        map.remove(tail.key);
+        cache.remove(tail.key);
         tail = tail.prev;
         tail.next = null;
     }
