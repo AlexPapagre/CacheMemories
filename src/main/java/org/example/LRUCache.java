@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class LRUCache<K, V> implements Cache<K, V> {
-    private final Map<K, Node<K, V>> map = new HashMap<>();
+    private final Map<K, Node<K, V>> cache = new HashMap<>();
     private Node<K, V> head, tail;
     private int size;
     private final int capacity;
@@ -18,13 +18,13 @@ public class LRUCache<K, V> implements Cache<K, V> {
 
     @Override
     public V get(K key) {
-        if (!map.containsKey(key)) {
+        if (!cache.containsKey(key)) {
             return null;
         }
 
-        makeMostRecent(map.get(key));
+        makeMostRecent(cache.get(key));
 
-        return map.get(key).value;
+        return cache.get(key).value;
     }
 
     @Override
@@ -33,7 +33,7 @@ public class LRUCache<K, V> implements Cache<K, V> {
         n.key = key;
         n.value = value;
 
-        if (!map.containsKey(key)) {
+        if (!cache.containsKey(key)) {
             size++;
         }
 
@@ -46,7 +46,7 @@ public class LRUCache<K, V> implements Cache<K, V> {
         putInList(n);
 
         // Put node in map
-        map.put(key, n);
+        cache.put(key, n);
     }
 
     private void makeMostRecent(Node<K, V> n) {
@@ -73,7 +73,7 @@ public class LRUCache<K, V> implements Cache<K, V> {
     }
 
     private void popLeastRecent() {
-        map.remove(head.key);
+        cache.remove(head.key);
         head = head.next;
         head.prev = null;
         size--;
