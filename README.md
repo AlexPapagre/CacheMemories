@@ -1,6 +1,6 @@
 # DomesDedomenwn
 
-DomesDedomenwn is a program that simulates a cache memory.
+DomesDedomenwn is a program that implements a cache memory simulation.
 
 This version supports the LRU and MRU cache types.
 
