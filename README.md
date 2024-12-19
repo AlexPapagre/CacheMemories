@@ -4,24 +4,28 @@ DomesDedomenwn is a program that simulates a cache memory.
 
 This version supports the LRU and MRU cache types.
 
-## Compilation (Packaging)
+## Usage
 
-Use maven to package the project.
+Compile using
 
-```bash
-mvn clean package
+```
+mvn compile
 ```
 
-## Run code
+Create a jar using
 
-```bash
+```
+mvn package
+```
+
+Run main using
+
+```
 java -jar target/DomesDedomenwn-1.0-SNAPSHOT.jar
 ```
 
-## Run Tests
+Run unit tests using
 
-Use maven to test the project.
-
-```bash
+```
 mvn test
 ```
