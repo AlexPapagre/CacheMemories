@@ -33,24 +33,20 @@ public class LRUCache<K, V> implements Cache<K, V> {
         n.key = key;
         n.value = value;
 
-        if (head == null) {
-            head = tail = n;
-        } else {
-            n.prev = tail;
-            tail.next = n;
-            tail = n;
-        }
-
         if (!map.containsKey(key)) {
             size++;
         }
 
-        map.put(key, n);
-
-        // Remove head if cache is full
+        // Remove one if cache is full
         if (isFull()) {
             popLeastRecent();
         }
+
+        // Put node in list
+        putInList(n);
+
+        // Put node in map
+        map.put(key, n);
     }
 
     private void makeMostRecent(Node<K, V> n) {
@@ -81,6 +77,16 @@ public class LRUCache<K, V> implements Cache<K, V> {
         head = head.next;
         head.prev = null;
         size--;
+    }
+
+    private void putInList(Node<K, V> n) {
+        if (head == null) {
+            head = tail = n;
+        } else {
+            n.prev = tail;
+            tail.next = n;
+            tail = n;
+        }
     }
 
     private static class Node<K, V> {
