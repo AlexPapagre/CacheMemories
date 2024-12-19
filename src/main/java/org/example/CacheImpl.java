@@ -46,15 +46,15 @@ public class CacheImpl<K, V> implements Cache<K, V> {
         // Remove one if cache is full
         if (isFull()) {
             if (replacementPolicy == CacheReplacementPolicy.LRU) {
-                popFromHead();
+                popLeastRecent();
             } else {
-                popFromTail();
+                popMostRecent();
             }
             size--;
         }
 
         // Put node to list
-        listPut(n);
+        putInList(n);
 
         // Put node to map
         map.put(key, n);
@@ -94,19 +94,19 @@ public class CacheImpl<K, V> implements Cache<K, V> {
         return size == capacity + 1;
     }
 
-    private void popFromHead() {
+    private void popLeastRecent() {
         map.remove(head.key);
         head = head.next;
         head.prev = null;
     }
 
-    private void popFromTail() {
+    private void popMostRecent() {
         map.remove(tail.key);
         tail = tail.prev;
         tail.next = null;
     }
 
-    private void listPut(Node<K, V> n) {
+    private void putInList(Node<K, V> n) {
         if (head == null) {
             head = tail = n;
         } else {
