@@ -10,14 +10,29 @@ public class CacheTest {
 
     @Test
     public void testLRUCache() {
-        Cache<Integer, Integer> cache = new CacheImpl<>(CAPACITY, CacheReplacementPolicy.LRU);
+        Cache<Integer, Integer> cache = new CacheImpl<>(3, CacheReplacementPolicy.LRU);
 
-        // Puts 'CAPACITY * 2' integers in cache and checks if they are saved properly
-        for (int i = 0; i < CAPACITY * 2; i++) {
-            assertNull(cache.get(i));
-            cache.put(i, i);
-            assertEquals((int) cache.get(i), i);
-        }
+        cache.put(1, 1);
+        cache.put(2, 2);
+        cache.put(3, 3);
+
+        assertEquals(1, (int) cache.get(1));
+        assertEquals(2, (int) cache.get(2));
+        assertEquals(3, (int) cache.get(3));
+
+        cache.put(4, 4);
+
+        assertNull(cache.get(1));
+        assertEquals(2, (int) cache.get(2));
+        assertEquals(3, (int) cache.get(3));
+        assertEquals(4, (int) cache.get(4));
+
+        cache.put(5, 5);
+
+        assertNull(cache.get(2));
+        assertEquals(3, (int) cache.get(3));
+        assertEquals(4, (int) cache.get(4));
+        assertEquals(5, (int) cache.get(5));
     }
 
     @Test
@@ -61,14 +76,29 @@ public class CacheTest {
 
     @Test
     public void testMRUCache() {
-        Cache<Integer, Integer> cache = new CacheImpl<>(CAPACITY, CacheReplacementPolicy.MRU);
+        Cache<Integer, Integer> cache = new CacheImpl<>(3, CacheReplacementPolicy.MRU);
 
-        // Puts 'CAPACITY * 2' integers in cache and checks if they are saved properly
-        for (int i = 0; i < CAPACITY * 2; i++) {
-            assertNull(cache.get(i));
-            cache.put(i, i);
-            assertEquals((int) cache.get(i), i);
-        }
+        cache.put(1, 1);
+        cache.put(2, 2);
+        cache.put(3, 3);
+
+        assertEquals(1, (int) cache.get(1));
+        assertEquals(2, (int) cache.get(2));
+        assertEquals(3, (int) cache.get(3));
+
+        cache.put(4, 4);
+
+        assertEquals(1, (int) cache.get(1));
+        assertEquals(2, (int) cache.get(2));
+        assertNull(cache.get(3));
+        assertEquals(4, (int) cache.get(4));
+
+        cache.put(5, 5);
+
+        assertEquals(1, (int) cache.get(1));
+        assertEquals(2, (int) cache.get(2));
+        assertNull(cache.get(4));
+        assertEquals(5, (int) cache.get(5));
     }
 
     @Test
