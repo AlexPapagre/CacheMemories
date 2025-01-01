@@ -9,23 +9,36 @@ public class Main {
 
     public static void main(String[] args) {
 
+        // Generate random seed
+        long seed = new Random().nextLong();
+
+        // Hit/Miss for every cache type
         for (CacheReplacementPolicy replacementPolicy : CacheReplacementPolicy.values()) {
+
+            // Initialize rng with same seed for every cache type
+            // to get the same numbers with the same order for every type
+            Random rng = new Random(seed);
+
+            // Initialize cache memory
             Cache<Integer, Integer> cache = new CacheImpl<>(CAPACITY, replacementPolicy);
 
+            // Starting puts and gets
             int count = 0;
             while (count < OPERATIONS) {
 
                 // Put 1000 integers to cache
                 for (int i = 0; i < 1000; i++) {
-                    int num = getRandomInt();
+                    int num = getRandomInt(rng);
                     cache.put(num, num);
                 }
 
                 // Get 1000 integers from cache
                 for (int i = 0; i < 1000; i++) {
-                    cache.get(getRandomInt());
+                    cache.get(getRandomInt(rng));
                     count++;
-                    if (count >= OPERATIONS) {
+
+                    // Stop when all operations done
+                    if (count == OPERATIONS) {
                         break;
                     }
                 }
@@ -34,7 +47,7 @@ public class Main {
             }
             count--;
 
-            // Print results
+            // Print results for every cache type
             String description = replacementPolicy.getDescription();
             System.out.println();
             System.out.println(description + " Cache");
@@ -52,8 +65,7 @@ public class Main {
 
     }
 
-    private static int getRandomInt() {
-        Random rng = new Random();
+    private static int getRandomInt(Random rng) {
 
         // 80% chance num belongs to [0 - 49999]
         // 20% chance num belongs to [50000 - 99999]

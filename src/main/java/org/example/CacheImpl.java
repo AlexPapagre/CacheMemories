@@ -36,16 +36,15 @@ public class CacheImpl<K, V> implements Cache<K, V> {
 
         if (!cache.containsKey(key)) {
             freeSpace--;
-        }
-
-        // Remove one if cache is full
-        if (isFull()) {
-            if (replacementPolicy == CacheReplacementPolicy.LRU) {
-                popLeastRecent();
-            } else {
-                popMostRecent();
+            // Remove one if cache is full
+            if (isFull()) {
+                if (replacementPolicy.equals(CacheReplacementPolicy.LRU)) {
+                    removeLeastRecent();
+                } else {
+                    removeMostRecent();
+                }
+                freeSpace++;
             }
-            freeSpace++;
         }
 
         // Put node in list
@@ -89,13 +88,13 @@ public class CacheImpl<K, V> implements Cache<K, V> {
         return freeSpace < 0;
     }
 
-    private void popLeastRecent() {
+    private void removeLeastRecent() {
         cache.remove(head.key);
         head = head.next;
         head.prev = null;
     }
 
-    private void popMostRecent() {
+    private void removeMostRecent() {
         cache.remove(tail.key);
         tail = tail.prev;
         tail.next = null;
