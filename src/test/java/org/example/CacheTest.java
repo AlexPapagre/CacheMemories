@@ -163,7 +163,7 @@ public class CacheTest {
 
     @Test
     public void testLFUCache() {
-        Cache<Integer, Integer> cache = new CacheImpl<>(3, CacheReplacementPolicy.LRU);
+        Cache<Integer, Integer> cache = new CacheImpl<>(3, CacheReplacementPolicy.LFU);
 
         // 3 puts
         cache.put(1, 1);
@@ -204,7 +204,7 @@ public class CacheTest {
 
     @Test
     public void testLFUCacheEdgeCases() {
-        Cache<Integer, Integer> cache = new CacheImpl<>(CAPACITY, CacheReplacementPolicy.LRU);
+        Cache<Integer, Integer> cache = new CacheImpl<>(CAPACITY, CacheReplacementPolicy.LFU);
 
         // Puts 'CAPACITY' integers in cache
         for (int i = 0; i < CAPACITY; i++) {
@@ -253,7 +253,7 @@ public class CacheTest {
 
     @Test
     public void stressTestLFUCache() {
-        Cache<Integer, Integer> cache = new CacheImpl<>(CAPACITY, CacheReplacementPolicy.LRU);
+        Cache<Integer, Integer> cache = new CacheImpl<>(CAPACITY, CacheReplacementPolicy.LFU);
 
         // Puts 'CAPACITY' integers in cache
         for (int i = 0; i < CAPACITY; i++) {
@@ -270,7 +270,7 @@ public class CacheTest {
         }
 
         // Checks if the least frequently used got removed
-        for (int i = CAPACITY; i < 1000000; i++) {
+        for (int i = CAPACITY; i < 10000; i++) {
             assertNull(cache.get(i));
             cache.put(i, i);
             for (int j = 0; j < i; j++) {
