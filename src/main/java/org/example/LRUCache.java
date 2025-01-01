@@ -35,7 +35,7 @@ public class LRUCache<K, V> implements Cache<K, V> {
 
         // Remove one if cache is full
         if (isFull()) {
-            popLeastRecent();
+            removeLeastRecent();
         }
 
         // Put node in list
@@ -68,7 +68,7 @@ public class LRUCache<K, V> implements Cache<K, V> {
         return freeSpace < 0;
     }
 
-    private void popLeastRecent() {
+    private void removeLeastRecent() {
         cache.remove(head.key);
         head = head.next;
         head.prev = null;
