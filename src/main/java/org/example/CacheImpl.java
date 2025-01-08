@@ -159,18 +159,12 @@ public class CacheImpl<K, V> implements Cache<K, V> {
         @Override
         public void put(K key, V value) {
             if (cache.containsKey(key)) {
+
+                // Increase frequency and update value if changed
                 int freq = cache.get(key);
-                if (freqMap.get(freq).get(key).equals(value)) {
+                increaseFrequency(key, value, freq);
 
-                    // Increase frequency if same entry exists
-                    increaseFrequency(key, value, freq);
-                    return;
-
-                } else {
-
-                    // Remove dublicate key with different value
-                    removeFromFreqMap(key, freq);
-                }
+                return;
             } else {
                 freeSpace--;
             }
