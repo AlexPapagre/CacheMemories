@@ -1,6 +1,6 @@
-# DomesDedomenwn
+# CacheMemories
 
-DomesDedomenwn is a program that implements a cache memory simulation.
+CacheMemories is a program that implements a cache memory simulation.
 
 This version supports the LRU, MRU and LFU cache types and the Hit/Miss function.
 
@@ -21,7 +21,7 @@ mvn package
 Run main using
 
 ```
-java -jar target/DomesDedomenwn-1.0-SNAPSHOT.jar
+java -jar target/cache.jar
 ```
 
 Run unit tests using
